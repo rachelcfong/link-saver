@@ -1,8 +1,8 @@
 import React from "react";
-import { AuthProvider } from "../contexts/AuthContext";
-import Signup from "./Signup";
-import SignIn from "./SignIn";
-import HomePage from "./HomePage";
+import { AuthProvider } from "./contexts/AuthContext";
+import Signup from "./pages/Signup";
+import SignIn from "./pages/SignIn";
+import HomePage from "./pages/HomePage";
 import {
   BrowserRouter as Router,
   Switch,
