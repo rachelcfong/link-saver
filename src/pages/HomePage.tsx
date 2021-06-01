@@ -16,40 +16,61 @@ import { useHistory } from "react-router-dom";
 import firebase from "firebase";
 import { db } from "../firebase";
 import NavBar from "../components/NavBar";
+import SideBar from "../components/SideBar";
+import LinkFeed from "../components/LinkFeed";
 
 export default function HomePage() {
   const [channels, setChannels] = useState<Array<any>>([]);
+  const [allLinks, setAllLinks] = useState<Array<any>>([]);
+  const [currentChannel, setCurrentChannel] = useState("");
   const user = firebase.auth().currentUser;
   const usersReference = db.collection("users");
 
   React.useEffect(() => {
-    console.log("hi", channels);
-
     if (user) {
       const currentUserId = usersReference.doc(user.uid).id;
       console.log("currentUserId", currentUserId);
-      usersReference
+      db.collection("users")
         .doc(currentUserId)
         .get()
         .then((doc) => {
           console.log("doc", doc.data());
           setChannels(doc?.data()?.channels);
+          //setCurrentChannel(channels[0]);
         })
         .catch((err) => {
           console.log(err);
         });
+
+      db.collection("users")
+        .doc(currentUserId)
+        .collection("links")
+        .get()
+        .then((querySnapshot) => {
+          let allLinksTemp: any = [];
+          querySnapshot.forEach((doc) => {
+            allLinksTemp.push(doc.data());
+          });
+          setAllLinks(allLinksTemp);
+        });
     }
-  }, [usersReference, channels, user]);
+  }, []);
 
   return (
     <div>
       <NavBar />
       <Grid container>
         <Grid item xs={3}>
-          {channels && channels.map((channel) => <div>{channel}</div>)}
+          {channels && (
+            <SideBar
+              channels={channels}
+              setCurrentChannel={setCurrentChannel}
+            />
+          )}
+          {/* {channels && channels.map((channel) => <div>{channel}</div>)} */}
         </Grid>
         <Grid item xs={9}>
-          <div>feed</div>
+          <LinkFeed links={allLinks} />
         </Grid>
       </Grid>
     </div>

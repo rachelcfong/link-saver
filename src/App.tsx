@@ -3,6 +3,8 @@ import { AuthProvider } from "./contexts/AuthContext";
 import Signup from "./pages/Signup";
 import SignIn from "./pages/SignIn";
 import HomePage from "./pages/HomePage";
+import AddLink from "./pages/AddLink";
+import NewsFeed from "./pages/NewsFeed";
 import {
   BrowserRouter as Router,
   Switch,
@@ -26,6 +28,12 @@ const App = () => {
           </Route>
           <Route path="/homepage">
             <HomePage />
+          </Route>
+          <Route path="/addlink">
+            <AddLink />
+          </Route>
+          <Route path="/newsfeed">
+            <NewsFeed />
           </Route>
         </AuthProvider>
       </Switch>
