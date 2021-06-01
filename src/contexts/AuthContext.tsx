@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { auth } from "../firebase";
+import { db } from "../firebase";
+import firebase from "firebase";
 
 const AuthContext = React.createContext({
   currentUser: undefined,
@@ -26,7 +28,18 @@ export const AuthProvider = ({ children }: AuthProps) => {
   }, []);
 
   const signup = (email: string, password: string) => {
-    return auth.createUserWithEmailAndPassword(email, password);
+    return auth.createUserWithEmailAndPassword(email, password).then(() => {
+      const user = firebase.auth().currentUser;
+      db.collection("users")
+        .doc(user?.uid)
+        .set({ email: email })
+        .then(() => {
+          console.log("added new user");
+        })
+        .catch((err) => {
+          console.log("err", err);
+        });
+    });
   };
 
   const value = {
