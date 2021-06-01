@@ -59,7 +59,7 @@ export default function NavBar() {
   return (
     <NavigationBar>
       <LogoTextBox>
-        <LogoText>ginsta yam</LogoText>
+        <LogoText>stasher</LogoText>
       </LogoTextBox>
       <NavTextBox>
         <NavText
@@ -69,8 +69,20 @@ export default function NavBar() {
         >
           🙂 profile
         </NavText>
-        <NavText>📥 newsfeed</NavText>
-        <NavText>✨ add new link</NavText>
+        <NavText
+          onClick={() => {
+            history.push("/newsfeed");
+          }}
+        >
+          📥 newsfeed
+        </NavText>
+        <NavText
+          onClick={() => {
+            history.push("/addlink");
+          }}
+        >
+          ✨ add new link
+        </NavText>
       </NavTextBox>
     </NavigationBar>
   );
